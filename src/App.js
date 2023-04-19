@@ -1,13 +1,14 @@
-import { Header } from './component/common/Header';
+import { Title } from './component/common/Title';
 import { List } from './component/common/List';
 
 function App() {
   return (
     <div>
-      <Header />
+      <Title />
       <List />
     </div>
   );
 }
 
 export default App;
+

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import { CheckboxControl } from './CheckboxControl';
 
 export const List = () => {
 
@@ -10,15 +10,16 @@ export const List = () => {
 
     useEffect(() => {
         setToDoList([
-            { name: "Faire les courses", category: "Shopping", isDone: false, isDelete: false },
-            { name: "Faire le ménage", category: "corvée", isDone: false, isDelete: false },
-            { name: "Aller à la piscine", category: "sport", isDone: false, isDelete: false }])
+            { name: "Faire les courses", category: "Shopping", isDone: false },
+            { name: "Faire le ménage", category: "corvée", isDone: false },
+            { name: "Aller à la piscine", category: "sport", isDone: false }])
     }, [])
 
     const handleClick = () => {
         setAddOpen(!AddOpen) //Sert à inverser les valeurs
     }
-    const addItem = () => {
+    const addItem = (e) => {
+        e.preventDefault();
         setToDoList([...ToDoList, { name, category }])
     }
     const handleClickDone = (indexToModify) => {
@@ -26,11 +27,14 @@ export const List = () => {
         setToDoList([...ToDoList])
     }
     const handleDelete = (indexToDelete) => {
-        ToDoList[indexToDelete].isDelete = !ToDoList[indexToDelete].isDelete
         ToDoList.splice(indexToDelete, 1)
         setToDoList([...ToDoList])
     }
-
+    const resetItem = (e) => {
+        e.preventDefault();
+        setName("");
+        setCategory("");
+    }
 
     return <>
 
@@ -53,8 +57,8 @@ export const List = () => {
                         className="form-control"
                         placeholder='Category'></input>
                 </label>
-                <button onClick={addItem} className="btn btn-success m-2" type='button'>Add</button>
-                <button type="reset" className="btn btn-secondary m-2" >Reset</button>
+                <button onClick={addItem} className="btn btn-success m-2" type='submit'>Add</button>
+                <button type="reset" className="btn btn-secondary m-2" onClick={resetItem}>Reset</button>
             </form >
         }
 
@@ -65,7 +69,7 @@ export const List = () => {
                     <tr>
                         <th>Status</th>
                         <th>Name</th>
-                        <th colspan="2">Category</th>
+                        <th colSpan="2">Category</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,9 +78,7 @@ export const List = () => {
                         return (
                             <tr className={classIsDone} key={index}>
                                 <td>
-                                    <div className="form-check">
-                                        <input className="form-check-input mx-1" type="checkbox" checked={thing.isDone} onChange={() => handleClickDone(index)} />
-                                    </div>
+                                    <CheckboxControl handleClickDone={() => handleClickDone(index)} />
                                 </td>
                                 <td>{thing.name}</td>
                                 <td>{thing.category}</td>
@@ -99,5 +101,8 @@ export const List = () => {
 // Ternaire : 3 elements -> x ? y : z
 // si x = true, alors y et sinon alors z
 
-
 // Voir pourquoi le bouton reset ne fonctionne pas
+// Checkbox = element séparé qui fonctionne PAREIL
+// addItem
+// tbody
+
