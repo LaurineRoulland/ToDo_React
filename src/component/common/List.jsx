@@ -10,9 +10,9 @@ export const List = () => {
 
     useEffect(() => {
         setToDoList([
-            { name: "Faire les courses", category: "Shopping", isDone: false },
-            { name: "Faire le ménage", category: "corvée", isDone: false },
-            { name: "Aller à la piscine", category: "sport", isDone: false }])
+            { name: "Faire les courses", category: "Shopping", isDone: false, isDelete: false },
+            { name: "Faire le ménage", category: "corvée", isDone: false, isDelete: false },
+            { name: "Aller à la piscine", category: "sport", isDone: false, isDelete: false }])
     }, [])
 
     const handleClick = () => {
@@ -25,8 +25,11 @@ export const List = () => {
         ToDoList[indexToModify].isDone = !ToDoList[indexToModify].isDone
         setToDoList([...ToDoList])
     }
-
-    
+    const handleDelete = (indexToDelete) => {
+        ToDoList[indexToDelete].isDelete = !ToDoList[indexToDelete].isDelete
+        ToDoList.splice(indexToDelete, 1)
+        setToDoList([...ToDoList])
+    }
 
 
     return <>
@@ -39,14 +42,14 @@ export const List = () => {
                 <label className='m-2'>
                     <input
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={event => setName(event.target.value)}
                         className="form-control"
                         placeholder='Name' ></input>
                 </label>
                 <label className='m-2'>
                     <input
                         value={category}
-                        onChange={e => setCategory(e.target.value)}
+                        onChange={event => setCategory(event.target.value)}
                         className="form-control"
                         placeholder='Category'></input>
                 </label>
@@ -54,7 +57,6 @@ export const List = () => {
                 <button type="reset" className="btn btn-secondary m-2" >Reset</button>
             </form >
         }
-
 
         <div className="d-flex justify-content-center">
 
@@ -79,7 +81,7 @@ export const List = () => {
                                 <td>{thing.name}</td>
                                 <td>{thing.category}</td>
                                 <td>
-                                    <button className="material-symbols-outlined border-0 bg-transparent">delete</button>
+                                    <button className="material-symbols-outlined border-0 bg-transparent" type='delete' onClick={() => handleDelete(index)}>delete</button>
                                 </td>
                             </tr>
                         )
@@ -94,5 +96,8 @@ export const List = () => {
 
 
 
+// Ternaire : 3 elements -> x ? y : z
+// si x = true, alors y et sinon alors z
+
+
 // Voir pourquoi le bouton reset ne fonctionne pas
-// Faire un delete avec Splice
