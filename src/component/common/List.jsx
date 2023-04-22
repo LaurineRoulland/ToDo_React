@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { CheckboxControl } from './CheckboxControl';
 import { AddItems } from './AddItems';
+import { Tasks } from './Tasks';
 
 
 export const List = () => {
 
-    const [ToDoList, setToDoList] = useState([{}])
+    const [toDoList, setToDoList] = useState([{}])
 
     useEffect(() => {
         setToDoList([
@@ -14,22 +14,12 @@ export const List = () => {
             { name: "Aller à la piscine", category: "sport", isDone: false }])
     }, [])
 
-    const handleClickDone = (indexToModify) => {
-        ToDoList[indexToModify].isDone = !ToDoList[indexToModify].isDone
-        setToDoList([...ToDoList])
-    }
-    const handleDelete = (indexToDelete) => {
-        ToDoList.splice(indexToDelete, 1)
-        setToDoList([...ToDoList])
-    }
-
 
     return <>
 
-        <AddItems setToDoList={setToDoList} ToDoList={ToDoList} />
+        <AddItems setToDoList={setToDoList} toDoList={toDoList} />
 
         <div className="d-flex justify-content-center">
-
             <table className="table table-striped border" style={{ maxWidth: "35em" }}>
                 <thead>
                     <tr>
@@ -38,25 +28,8 @@ export const List = () => {
                         <th colSpan="2">Category</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {ToDoList.map((thing, index) => {
-                        const classIsDone = thing.isDone ? "text-decoration-line-through" : "";
-                        return (
-                            <tr className={classIsDone} key={index}>
-                                <td>
-                                    <CheckboxControl handleClickDone={() => handleClickDone(index)} />
-                                </td>
-                                <td>{thing.name}</td>
-                                <td>{thing.category}</td>
-                                <td>
-                                    <button className="material-symbols-outlined border-0 bg-transparent" type='delete' onClick={() => handleDelete(index)}>delete</button>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+                <Tasks toDoList={toDoList} setToDoList={setToDoList} />
             </table>
-
         </div>
 
     </>
@@ -69,6 +42,6 @@ export const List = () => {
 
 // Voir pourquoi le bouton reset ne fonctionne pas   OK
 // Checkbox = element séparé qui fonctionne PAREIL   OK
-// addItem
-// tbody
+// addItem                                           OK
+// tbody                                             OK
 

@@ -11,7 +11,7 @@ export const AddItems = (props) => {
     }
     const addItem = (e) => {
         e.preventDefault();
-        props.setToDoList([...props.ToDoList, { name, category }]);
+        props.setToDoList([...props.toDoList, { name, category }]);
     }
     const resetItem = (e) => {
         e.preventDefault();
